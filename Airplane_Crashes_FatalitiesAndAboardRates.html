@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./plugins/echarts.min.js"></script>
+    <title>Each Year's Aboard / Fatalities in Airplane_crashes</title>
+</head>
+<body>
+    <div id="main" style="width: 100%;height:710px;" style="background-image: url('./img/1.jpg');"></div>
+    <script type="text/javascript">
+        var Chart = echarts.init(document.getElementById('main'));
+        window.onload = function() {
+            var url = "./Fatalities.json";
+            var xhr = new XMLHttpRequest();
+            xhr.open("get", url, true);
+            xhr.onload = function() {
+                if(this.status == 200) {
+                    var oriData = JSON.parse(this.responseText);
+                    var xElement = new Array()
+                    var Data = new Array(oriData[0].length)
+                    // Process Year, Aboard, Fatalities and Rates array
+                    var Year = new Array()
+                    var Aboard = new Array()
+                    var Fatalities = new Array()
+                    var Rates = new Array()
+                    for(var i = 1; i < oriData.length; ++i) {
+                        Year.push(oriData[i][0]);
+                        Aboard.push(oriData[i][1]);
+                        Fatalities.push(oriData[i][2]);
+                        Rates.push(oriData[i][3]);
+                    }
+                    Data[0] = Year;
+                    Data[1] = Aboard;
+                    Data[2] = Fatalities;
+                    Data[3] = Rates;
+                    legend.push(oriData[0][1] + ' - 乘客数');
+                    legend.push(oriData[0][2] + ' - 遇难人数');
+                    legend.push(oriData[0][3] + ' - 遇难率');
+                    // var img = new Image();
+                    // img.src = "./img/Airplane_Crashes.jpg";
+                    var option_main = {
+                        // text: 'oblique',
+                        title: {
+                            text: ' > Airplane Crashes - 遇难数 / 乘客数 __ 遇难概率',
+                            textStyle: {color: '#9ac32f'}
+                        },
+                        backgroundColor: {
+                            type: "pattern",
+                            repeat: "no-repeat",
+                            image: img
+                        },
+                        dataZoom: [
+                            // xAxis
+                            {
+                                bottom: -10,
+                                type: 'slider',
+                                xAxisIndex: 0
+                            },
+                            {
+                                bottom: -10,
+                                type: 'inside',
+                                xAxisIndex: 0
+                            },
+                            // Left yAxis
+                            {
+                                right: -5,
+                                type: 'slider',
+                                yAxisIndex: 0
+                            },
+                            {
+                                right: -5,
+                                type: 'inside',
+                                yAxisIndex: 0
+                            },
+                            // Right yAxis
+                            {
+                                right: -5,
+                                type: 'slider',
+                                yAxisIndex: 1,
+                                start: 0,
+                                end: 1
+                            },
+                            {
+                                right: -5,
+                                type: 'inside',
+                                yAxisIndex: 1,
+                                start: 0,
+                                end: 1
+                            }
+                        ],
+                        tooltip : {
+                            trigger: 'axis',
+                            axisPointer : {            
+                                type : 'shadow'        
+                            }
+                        },
+                        legend: {
+                            data:legend
+                        },
+                        // backgroundColor: 'transparent',
+                        // color: {
+                        //     image: img
+                        // },
+                        grid: {
+                            left: '7%',
+                            right: '4.3%',
+                            bottom: '7%',
+                            containLabel: true
+                        },
+                        xAxis : [{
+                            type : 'category',
+                            data : Data[0],
+                            name: 'Year - 年份'
+                        }],
+                        yAxis : [
+                            {type : 'value', name: 'Quantity of Aboard / Victim (s) - 乘客数 / 遇难者数'},
+                            // 右侧y轴用于显示比例
+                            {type: 'value', name: 'Rate - 遇难概率'}
+                        ],
+                        series: [
+                            {
+                                // Aboard
+                                name: legend[0],
+                                type:'bar',
+                                // stack: 'num',    // 堆叠
+                                data: Data[1],
+                                // Set item's parameter
+                                itemStyle: {
+                                    normal: {
+                                        // Change color
+                                        // color: "#57bd66"
+                                        // color: 'rgba(143,236,100,0.77)'
+                                        color: 'rgba(87,200,102,0.77)'
+                                    }
+                                }
+                            },
+                            {
+                                // Fatalities
+                                name: legend[1],
+                                type:'bar',
+                                // stack: 'num',
+                                barGap: "-100%",    // 实现重叠柱状图
+                                data: Data[2],
+                                itemStyle: {
+                                    normal: {
+                                        // color: "#ffaa00eb"
+                                        // color: 'rgba(255,230,0,0.7)'
+                                        color: 'rgba(255,167,0,0.9)'
+                                    }
+                                }
+                            },
+                            {
+                                // 折线 Rate
+                                name: legend[2],
+                                type: 'line',
+                                yAxisIndex: 1,  // 采用第二个y轴
+                                data: Data[3],
+                                showSymbol: false,   // 去掉圆点
+                                itemStyle: {
+                                    normal: {
+                                        // color: "#ff2400f2",
+                                        color: 'rgb(229, 71, 79,0.2)',
+                                        opacity: 0  // 设置为0, 则即使悬停在相应位置也不显示圆点
+                                    }
+                                },
+                                areaStyle: {
+                                    normal: {
+                                        color: new echarts.graphic.LinearGradient(0,0,0,1,[ // 折线填充区域颜色渐变
+                                            {offset: 0,color: 'rgba(80,141,255,0.39)'}, 
+                                            {offset: .34,color: 'rgba(56,155,255,0.25)'},
+                                            {offset: 1,color: 'rgba(38,197,254,0.00)'}
+                                        ])
+                                    }
+                                }
+                            }
+                        ]
+                    };
+                    Chart.setOption(option);
+                }
+            }
+            xhr.send();
+        }
+    </script>
+</body>
+</html>

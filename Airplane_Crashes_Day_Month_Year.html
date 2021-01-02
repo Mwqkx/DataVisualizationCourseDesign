@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./plugins/echarts.min.js"></script>
+    <title>Count / Scatter / Day_Month_Year</title>
+</head>
+<body>
+    <!-- xAxis: Year    yAxis: Month + Day / 100 -->
+    <div id="scatter_2" style="width: 100%;height:750px;"></div>
+    <script type="text/javascript">
+        var Chart_scatter_2 = echarts.init(document.getElementById('scatter_2'));
+        window.onload = function() {
+            var url = "./year_month_day.json";
+            var xhr = new XMLHttpRequest();
+            xhr.open("get", url, true);
+            xhr.onload = function() {
+                if(this.status == 200) {
+                    var oriData = JSON.parse(this.responseText);
+                    var option_scatter_2 = {
+                        // text: 'oblique',
+                        title: {
+                            text: 'Airplane Crashes - 1908-2009年空难发生时间分布情况',
+                            textStyle: {color: '#d2a121'}
+                        },
+                        visualMap: [
+                            {
+                                type: 'piecewise',
+                                pieces: [
+                                    {min:1.1, max:2.29},
+                                    {min:3.1, max:5.31},
+                                    {min:6.1, max: 8.31},
+                                    {min:9.1, max:12.31}
+                                ],
+                                color: ['#e91e63','#ffc107','#4caf50'],
+                                padding: [0,0,0,5],
+                                // orient: 'vertical',
+                                orient: 'horizontal'
+                            },
+                            {
+                                type: 'continuous',
+                                min: 1.1,
+                                max: 12.31,
+                                color: ['#e91e63','#ffc107','#4caf50'],
+                                itemHeight: 700,
+                                padding: [0,0,0,300],
+                                orient: 'horizontal',
+                                range: [1.1, 12.31],
+                                calculable: true,
+                                text: ['December', 'January']
+                            }
+                        ],
+                        dataZoom: [
+                            // xAxis
+                            {
+                                bottom: -10,
+                                type: 'inside',
+                                xAxisIndex: 0
+                            },
+                            // Left yAxis
+                            {
+                                right: -5,
+                                type: 'inside',
+                                yAxisIndex: 0
+                            },
+                        ],
+                        dataset: {
+                            source: oriData
+                        },
+                        tooltip : {
+                            trigger: 'axis',
+                            axisPointer : {            
+                                type : 'shadow'        
+                            },  
+                        },
+                        legend: {
+                            padding: [0,50,0,0]
+                        },
+                        // backgroundColor: 'transparent',
+                        // color: {
+                        //     image: img
+                        // },
+                        grid: {
+                            left: '2%',
+                            // right: '3%',
+                            bottom: '7%',
+                            containLabel: true
+                        },
+                        xAxis : [{
+                            type : 'category',
+                            name: 'Year - 年份'
+                        }],
+                        yAxis : [
+                            {type : 'value', max: 12.5, name: 'Date - 日期'}
+                        ],
+                        series: [
+                            {
+                                // Month_Day 散点图 scatter
+                                type:'scatter',
+                                symbolSize: 3,  // 调整散点大小
+                                itemStyle: {
+                                    normal: {
+                                        color: 'rgba(255,167,0,0.9)'
+                                    }
+                                }
+                            },
+                        ]
+                    };
+                    Chart_scatter_2.setOption(option_scatter_2);
+                    // option.push(option_prim);
+                }
+            }
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
