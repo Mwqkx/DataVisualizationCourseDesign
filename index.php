@@ -11,7 +11,7 @@
 <!-- <body style="background-image: url('./img/1.jpg')"> -->
 <body>
     <hr style="background-color: #e5d3a7; height: 2px; border: none; width: 97%" />
-    <div class="alert alert-light" role="alert"><i class="text-secondary">DataVisualization</i><br /><u class="text-white" style="background-color: black"><a href="https://www.github.com/mwqkx/datavisualization" style="color: white">1908 - 2009年 空难数据可视化</a></u></div>
+    <div class="alert alert-light" role="alert"><i class="text-secondary">DataVisualization</i><br /><u class="text-white" style="background-color: black"><a href="https://www.github.com/mwqkx/datavisualizationcoursedesign" style="color: white">1908 - 2009年 空难数据可视化</a></u></div>
     <hr style="background-color: #d5c3d0; height: 2px; border: none; width: 97%" />
     <div id="main" style="width: 100% ;height:710px; background-image: url('./img/1.jpg');"></div>
     <br>
