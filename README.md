@@ -3,7 +3,7 @@
 =====
 `Preview`
 -----
-![](https://github.com/mwqkx/DataVisualizationCourseDesign/raw/master/img/localhost_temprepos_index.png)
+![](https://github.com/mwqkx/DataVisualizationCourseDesign/raw/master/img/localhost_datavisualizationcoursedesign_.png)
 -----
 `File`
 -----
