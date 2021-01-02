@@ -7,8 +7,7 @@
 -----
 `Source`
 -----
-    Airplane Crashes Since 1908
->>■ [Link](https://www.kaggle.com/saurograndi/airplane-crashes-since-1908)
+    Airplane Crashes Since 1908 >   ■ [Link](https://www.kaggle.com/saurograndi/airplane-crashes-since-1908)
 -----
 `File`
 -----
